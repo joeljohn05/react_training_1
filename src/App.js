@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DirectoryTable from "./components/ItemList";
-import AddNew from "./components/AddNew";
 import EditForm from "./components/EditForm";
 import Pagination from "./components/Pagination";
 import Modal from "./components/Modal";
@@ -24,7 +23,6 @@ const App = () => {
   const { isShowing, toggle } = useModal();
 
   useEffect(() => {
-    debugger;
     axios("https://652d0dbaf9afa8ef4b26b4ac.mockapi.io/reactdemo/list/users")
       .then((response) =>
         response.data.map((user) => ({
@@ -40,13 +38,6 @@ const App = () => {
         setUsers(data);
       });
   }, []);
-
-  const addUser = (user) => {
-    toggle();
-    user.id = users.length + 1;
-    user.avatar = "https://randomuser.me/api/portraits/thumb/lego/1.jpg";
-    setUsers([user, ...users]);
-  };
 
   const editUser = (user) => {
     setEditing(true);
@@ -80,7 +71,7 @@ const App = () => {
   return (
     <>
       <header>
-      <h1>Employee Directory</h1>
+      <h1>Employee Details</h1>
     </header>
       <div className="container">
         <button className="button-add" onClick={toggle}>
