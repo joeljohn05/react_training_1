@@ -16,7 +16,7 @@ const App = () => {
     last_name: "",
     username: "",
     email: "",
-    image: "",
+    avatar: "",
   };
   const [currentUser, setCurrentUser] = useState(initialFormState);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,15 +24,16 @@ const App = () => {
   const { isShowing, toggle } = useModal();
 
   useEffect(() => {
-    axios("http://localhost:3000/results")
+    debugger;
+    axios("https://652d0dbaf9afa8ef4b26b4ac.mockapi.io/reactdemo/list/users")
       .then((response) =>
         response.data.map((user) => ({
-          id: user.id.value,
-          first_name: user.name.first,
-          last_name: user.name.last,
-          username: user.login.username,
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          username: user.username,
           email: user.email,
-          image: user.picture.thumbnail,
+          avatar: user.avatar,
         }))
       )
       .then((data) => {
@@ -43,7 +44,7 @@ const App = () => {
   const addUser = (user) => {
     toggle();
     user.id = users.length + 1;
-    user.image = "https://randomuser.me/api/portraits/thumb/lego/1.jpg";
+    user.avatar = "https://randomuser.me/api/portraits/thumb/lego/1.jpg";
     setUsers([user, ...users]);
   };
 
@@ -56,7 +57,7 @@ const App = () => {
       last_name: user.last_name,
       username: user.username,
       email: user.email,
-      image: user.image,
+      avatar: user.avatar,
     });
   };
 
@@ -99,11 +100,7 @@ const App = () => {
           }
         />
       ) : (
-        <Modal
-          isShowing={isShowing}
-          hide={toggle}
-          content={<AddNew addUser={addUser} />}
-        />
+        <div></div>
       )}
       <DirectoryTable
         users={currentUsers}

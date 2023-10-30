@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect} from "react";
 import SearchBox from "./SearchBox";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const useSortableData = (users, config = null) => {
   const [sortConfig, setSortConfig] = useState(config);
@@ -39,6 +40,13 @@ const useSortableData = (users, config = null) => {
 };
 
 const ItemList = (props) => {
+  const { state } = useLocation();
+  useEffect(() => {
+    if (state && state.isUpdated) {
+      console.log("Success")
+    }
+  }, []);
+  const navigate = useNavigate();
   const { users, requestSort, sortConfig } = useSortableData(props.users);
   const { editUser, deleteUser } = props;
   const [searchValue, setSearchValue] = useState("");
@@ -56,11 +64,16 @@ const ItemList = (props) => {
   let updateUsers = users.filter((user) => {
     return Object.keys(user).some((key) =>
       user[key]
-        .toString()
+        ?.toString()
         .toLowerCase()
         .includes(searchValue.toString().toLowerCase())
     );
   });
+
+  const goToEdit = (user) => {
+    console.log("edit", user);
+    navigate("/edit", { state: { user: user } });
+  };
 
   return (
     <>
@@ -121,6 +134,7 @@ const ItemList = (props) => {
                       aria-label="edit"
                       onClick={() => {
                         editUser(user);
+                        goToEdit(user);
                       }}
                     >
                       <EditIcon />

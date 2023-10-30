@@ -7,7 +7,7 @@ const AddNew = (props) => {
     last_name: "",
     username: "",
     email: "",
-    image: "",
+    avatar: "",
   };
   const [user, setUser] = useState(initialFormState);
 
